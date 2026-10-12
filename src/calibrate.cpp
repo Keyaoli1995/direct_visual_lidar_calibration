@@ -195,8 +195,13 @@ int main(int argc, char** argv) {
 
   const std::string data_path = vm["data_path"].as<std::string>();
 
-  vlcal::VisualLiDARCalibration calib(data_path, vm);
-  calib.calibrate(vm);
+  {
+    vlcal::VisualLiDARCalibration calib(data_path, vm);
+    calib.calibrate(vm);
+  }
+
+  // Release OpenGL resources before process-wide static destruction begins.
+  guik::LightViewer::destroy();
 
   return 0;
 }
